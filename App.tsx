@@ -1,20 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import { useCallback } from 'react';
+import { View } from 'react-native';
+import AppNavigator from './src/modules/AppNavigator';
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
+import * as eva from '@eva-design/eva';
 
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    'Rubik-Regular': require('./assets/fonts/Rubik-Regular.ttf'),
+    'Rubik-Bold': require('./assets/fonts/Rubik-Bold.ttf'),
+    'Rubik-SemiBold': require('./assets/fonts/Rubik-SemiBold.ttf'),
+  });
+  const onLayoutRootView = useCallback(() => {
+    if (fontsLoaded) {
+      // eslint-disable-next-line no-void
+      void SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <IconRegistry icons={EvaIconsPack} />
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <AppNavigator />
+      </ApplicationProvider>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

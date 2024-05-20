@@ -1,6 +1,38 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "strict": true
-  }
+    "baseUrl": ".",
+    "paths": {
+      "@Constants/*": [
+        "src/constants/*"
+      ],
+      "@Components": [
+        "src/components"
+      ],
+      "@Components/*": [
+        "src/components/*"
+      ],
+      "@Screens/*": [
+        "src/screens/*"
+      ],
+      "@Modules/*": [
+        "src/modules/*"
+      ],
+      "@Services/*": [
+        "src/services/*"
+      ],
+      "@Utils/*": [
+        "src/utils/*"
+      ],
+      "@Types/*": [
+        "src/types/*"
+      ],
+      "@routes": [
+        "src/routes"
+      ]
+    }
+  },
+  "extends": "expo/tsconfig.base",
+  "files": ["./App.tsx"],
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
 }
