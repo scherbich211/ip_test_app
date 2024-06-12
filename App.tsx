@@ -7,6 +7,7 @@ import { ApplicationProvider, IconRegistry } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import React from 'react';
 export default function App() {
   const [fontsLoaded] = useFonts({
     'Rubik-Regular': require('./assets/fonts/Rubik-Regular.ttf'),

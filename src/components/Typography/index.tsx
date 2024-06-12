@@ -22,100 +22,67 @@ type FontWeight =
   | '800'
   | '900';
 
-const getFontSize = (element?: TypographyElement): number => {
-  switch (element) {
-    case 'h1':
-      return 20;
-    case 'h2':
-      return 16;
-    case 'h3':
-      return 14;
-    case 'body':
-      return 14;
-    case 'button':
-      return 16;
-    case 'caption':
-      return 12;
-    default:
-      return 14;
-  }
+  const getFontSize = (element?: string): number => {
+    const fontSizes = {
+      h1: 20,
+      h2: 16,
+      h3: 14,
+      body: 14,
+      button: 16,
+      caption: 12,
+    };
+  
+    return fontSizes[element] || 14; 
+  };
+
+const getFontFamily = (element?: string): string => {
+  const fontFamilies = {
+    h1: 'Rubik-Bold',
+    h2: 'Rubik-SemiBold',
+    h3: 'Rubik-SemiBold',
+    body: 'Rubik-Regular',
+    button: 'Rubik-Regular',
+    caption: 'Rubik-Regular',
+  };
+
+  return fontFamilies[element] || 'Rubik-Regular';
 };
 
-const getFontFamily = (element?: TypographyElement): string => {
-  switch (element) {
-    case 'h1':
-      return 'Rubik-Bold';
-    case 'h2':
-      return 'Rubik-SemiBold';
-    case 'h3':
-      return 'Rubik-SemiBold';
-    case 'body':
-      return 'Rubik-Regular';
-    case 'button':
-      return 'Rubik-Regular';
-    case 'caption':
-      return 'Rubik-Regular';
-    default:
-      return 'Rubik-Regular';
-  }
+const getFontWeight = (element?: string): FontWeight => {
+  const fontWeights = {
+    h1: '600',
+    h2: '400',
+    h3: '400',
+    body: '600',
+    button: '600',
+    caption: '400',
+  };
+
+  return fontWeights[element] || 'normal';
 };
 
-const getFontWeight = (element?: TypographyElement): FontWeight => {
-  switch (element) {
-    case 'h1':
-      return '600';
-    case 'h2':
-      return '400';
-    case 'h3':
-      return '400';
-    case 'body':
-      return '600';
-    case 'button':
-      return '600';
-    case 'caption':
-      return '400';
-    default:
-      return 'normal';
-  }
-};
+const getLineHeight = (element?: string): number => {
+  const lineHeights = {
+    h1: 26,
+    h2: 22,
+    h3: 18,
+    body: 20,
+    button: 18,
+    caption: 18,
+  };
 
-const getLineHeight = (element?: TypographyElement): number => {
-  switch (element) {
-    case 'h1':
-      return 26;
-    case 'h2':
-      return 22;
-    case 'h3':
-      return 18;
-    case 'body':
-      return 20;
-    case 'button':
-      return 18;
-    case 'caption':
-      return 18;
-    default:
-      return 26;
-  }
+  return lineHeights[element] || 26; // Default line height
 };
 
 type Props = {
-  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
   element?: TypographyElement;
-  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
   fontSize?: number;
-  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
   fontWeight?: FontWeight;
-  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
   lineHeight?: number;
-  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
   fontFamily?: string;
-  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
   children: React.ReactNode;
-  // eslint-disable-next-line react/require-default-props
   style?: StyleProp<TextStyle>;
-  // eslint-disable-next-line react/require-default-props
   onLayout?: (event: LayoutChangeEvent) => void;
-  // eslint-disable-next-line react/no-unused-prop-types, react/require-default-props
   color?: TextStyle['color'];
 };
 

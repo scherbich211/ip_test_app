@@ -1,6 +1,8 @@
 export enum ROUTES {
   DASHBOARD = 'DASHBOARD',
-  IMAGINARIUM = 'IMAGINARIUM',
+  MARKET = 'MARKET',
+  DATA = 'DATA',
+  CHART = 'CHART',
 }
 
 export type RootStackParamList = {
@@ -8,6 +10,8 @@ export type RootStackParamList = {
 } & TabBarStackParamList
 
 export type TabBarStackParamList = {
-  [ROUTES.IMAGINARIUM]: undefined;
+  [ROUTES.MARKET]: undefined;
+  [ROUTES.DATA]: undefined;
+  [ROUTES.CHART]: undefined;
 }
 

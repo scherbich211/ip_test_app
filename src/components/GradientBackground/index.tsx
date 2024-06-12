@@ -1,6 +1,7 @@
+import { COLORS } from '@Constants/style.constants';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ReactNode } from 'react';
-import { COLORS } from '../../constants/style.constants';
+import React from 'react';
 
 const GradientBackground = ({ children }: { children: ReactNode }) => (
   <LinearGradient
