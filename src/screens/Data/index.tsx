@@ -1,24 +1,24 @@
-import React, { FC, memo } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { SafeAreaView, StyleSheet } from 'react-native';
 import GradientBackground from '@Components/GradientBackground';
 import Typography from '@Components/Typography';
-import { COLORS, SIZES } from '@Constants/style.constants';
-
+import {COLORS, SIZES} from '@Constants/style.constants';
+import {TData} from '@Types/index';
+import React, {FC, memo} from 'react';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 type Props = {
   //
 };
-
 const Market: FC<Props> = () => (
   <SafeAreaView style={styles.container}>
     <GradientBackground>
       <GestureHandlerRootView style={styles.gestureWrapper}>
         {/* <Layout style={styles.layout}> */}
-          <Typography style={styles.header} element="h3">
+        <Typography style={styles.header} element="h3">
           Data
-          </Typography>
+        </Typography>
         {/* </Layout> */}
+        
       </GestureHandlerRootView>
     </GradientBackground>
   </SafeAreaView>
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.HeavyMetal,
   },
-  gestureWrapper: { flex: 1 },
+  gestureWrapper: {flex: 1},
   layout: {
     flexGrow: 1,
     width: SIZES.width,
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 25,
     marginVertical: SIZES.spacing * 2.5,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
 });

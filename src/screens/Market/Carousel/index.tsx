@@ -1,6 +1,6 @@
 import {COLORS, SIZES} from '@Constants/style.constants';
 import React, {memo} from 'react';
-import {Animated, View} from 'react-native';
+import {Animated, KeyboardAvoidingView, View} from 'react-native';
 
 const imageData = [
   {
@@ -35,7 +35,7 @@ const Carousel = () => {
       outputRange: [0.8, 1, 0.8],
     });
     return (
-      <View style={{width: ITEM_SIZE, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{width: ITEM_SIZE, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red'}}>
         <Animated.Image
           style={{
             width: ITEM_SIZE,
@@ -52,25 +52,25 @@ const Carousel = () => {
   };
 
   return (
-    <Animated.FlatList
-      data={imageData}
-      keyExtractor={item => item.id}
-      horizontal
-      bounces={false}
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{
-        paddingHorizontal: ITEM_SPACING,
-      }}
-      onScroll={Animated.event([{nativeEvent: {contentOffset: {x: scrollX}}}], {useNativeDriver: true})}
-      snapToInterval={ITEM_SIZE}
-      decelerationRate={'fast'}
-      style={{flexGrow: 0}}
-      onMomentumScrollEnd={ev => {
-        const index = Math.round(ev.nativeEvent.contentOffset.x / ITEM_SIZE);
-        setSelected(index);
-      }}
-      renderItem={renderItem}
-    />
+      <Animated.FlatList
+        data={imageData}
+        keyExtractor={item => item.id}
+        horizontal
+        bounces={false}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: ITEM_SPACING,
+        }}
+        onScroll={Animated.event([{nativeEvent: {contentOffset: {x: scrollX}}}], {useNativeDriver: true})}
+        snapToInterval={ITEM_SIZE}
+        decelerationRate={'fast'}
+        style={{flexGrow: 0}}
+        onMomentumScrollEnd={ev => {
+          const index = Math.round(ev.nativeEvent.contentOffset.x / ITEM_SIZE);
+          setSelected(index);
+        }}
+        renderItem={renderItem}
+      />
   );
 };
 
