@@ -7,6 +7,7 @@ export const COLORS = {
   primary: '#AD62D0',
   disabled: '#7D7D7D',
   textDisabled: '#6b6b6b',
+  primaryComponent: '#3366FF',
 };
 
 const spacing = 10;
