@@ -1,28 +1,29 @@
 import GradientBackground from '@Components/GradientBackground';
 import Typography from '@Components/Typography';
 import {COLORS, SIZES} from '@Constants/style.constants';
-import {TData} from '@Types/index';
-import React, {FC, memo} from 'react';
-import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import React, {FC, memo, useContext} from 'react';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 type Props = {
   //
 };
-const Market: FC<Props> = () => (
-  <SafeAreaView style={styles.container}>
-    <GradientBackground>
-      <GestureHandlerRootView style={styles.gestureWrapper}>
-        {/* <Layout style={styles.layout}> */}
-        <Typography style={styles.header} element="h3">
-          Data
-        </Typography>
-        {/* </Layout> */}
-        
-      </GestureHandlerRootView>
-    </GradientBackground>
-  </SafeAreaView>
-);
+const Market: FC<Props> = () => {
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <GradientBackground>
+        <GestureHandlerRootView style={styles.gestureWrapper}>
+          {/* <Layout style={styles.layout}> */}
+          <Typography style={styles.header} element="h3">
+            Data
+          </Typography>
+          {/* </Layout> */}
+        </GestureHandlerRootView>
+      </GradientBackground>
+    </SafeAreaView>
+  );
+};
 
 export default memo(Market);
 

@@ -1,49 +1,60 @@
 import GradientBackground from '@Components/GradientBackground';
 import Typography from '@Components/Typography';
 import {COLORS, SIZES} from '@Constants/style.constants';
-import {TData} from '@Types/index';
+import {getPublicIP} from '@Utils/getPublicIP';
 import {Button, Input} from '@ui-kitten/components';
-import React, {memo} from 'react';
+import {DataContext} from 'App';
+import React, {memo, useContext, useEffect} from 'react';
 import {Keyboard, SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import Carousel from './Carousel';
-import Table from './Table';
+import Carousel from '../../components/Carousel';
+import Table from '../../components/Table';
 
 const Market = () => {
-  const headerText = ['IP Adress', 'Location', 'Timezone', 'ISP'];
-  const data: TData[] = [{id: 1, ip: '123123123123', location: 'new york', timezone: 'utc+3', isp: 'pidaaaaor'}];
+  const {info, changeInfo} = useContext(DataContext);
+  useEffect(() => {
+    const fetchCombinedInfo = async () => {
+      try {
+        // if () {
+        //   const locationDetails = await getLocationDetails(ip);
+        // setLocationInfo(locationDetails);
+        // }
+        const ip_public = await getPublicIP();
+        const locationDetails = await getLocationDetails(ip_public);
+        changeInfo({...locationDetails, ...info});
+      } catch (error) {
+        // setError(error.message || 'Error fetching information');
+      }
+    };
+
+    fetchCombinedInfo();
+  }, []);
+
+  async function getLocationDetails(ip_public: string) {
+    try {
+      const response = await fetch(`https://ipwho.is/${ip_public}`);
+      const data = await response.json();
+      // Assuming response structure:
+      const {ip, city, country_code, timezone, connection} = data;
+      return {ip, location: `${city}, ${country_code}`, utc: timezone.utc, isp: connection.isp}; // Transform response to desired object
+    } catch (error) {
+      console.error('Error fetching location details:', error);
+      throw error;
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <GradientBackground style={{paddingVertical: 25}}>
-        <TouchableOpacity
-          onPress={Keyboard.dismiss}
-          activeOpacity={1}
-          style={{
-            alignItems: 'center',
-          }}>
+      <GradientBackground style={styles.spacing}>
+        <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1} style={styles.alignCenter}>
           <Typography style={styles.header} element="h1">
             IP DETECTOR
           </Typography>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: SIZES.width * 0.9,
-              marginTop: 20,
-            }}>
-            <Input
-              style={{
-                backgroundColor: COLORS.White,
-                borderRadius: 10,
-                width: '82%',
-              }}
-              placeholder="Search IP"
-            />
-            <Button style={{borderRadius: 10, width: '15%'}} />
+          <View style={styles.searchContainer}>
+            <Input style={styles.input} placeholder="Search IP" />
+            <Button style={styles.btn} />
           </View>
-          <Table data={data} headerText={headerText} />
+          <Table data={info} />
         </TouchableOpacity>
-
         <Carousel />
       </GradientBackground>
     </SafeAreaView>
@@ -56,6 +67,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  spacing: {paddingVertical: 25},
+  alignCenter: {
+    alignItems: 'center',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: SIZES.width * 0.9,
+    marginTop: 20,
+  },
+  input: {
+    backgroundColor: COLORS.White,
+    borderRadius: 10,
+    width: '82%',
+  },
+  btn: {borderRadius: 10, width: '15%'},
   header: {
     alignSelf: 'center',
   },

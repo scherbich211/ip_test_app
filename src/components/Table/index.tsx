@@ -1,10 +1,12 @@
 import Typography from '@Components/Typography';
-import {SIZES} from '@Constants/style.constants';
-import {TData} from '@Types/index';
+import { SIZES } from '@Constants/style.constants';
+import { TInfo } from '@Types/index';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-const Table = ({data, headerText}: {data: TData[]; headerText: Array<string>}) => {
+const Table = ({data}: {data: TInfo}) => {
+  const headerText = ['IP Adress', 'Location', 'Timezone', 'ISP'];
+  const selectedValues = data ? Object.keys(data).map(key => data[key]) : [];
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -14,20 +16,15 @@ const Table = ({data, headerText}: {data: TData[]; headerText: Array<string>}) =
           </Typography>
         ))}
       </View>
-      {data.map(row => {
-        const selectedValues = Object.keys(row)
-          .map(key => row[key])
-          .splice(1);
-        return (
-          <View style={styles.row} key={row.id}>
-            {selectedValues.map(it => (
-              <Typography element="caption" style={styles.text} key={it}>
-                {it}
-              </Typography>
-            ))}
-          </View>
-        );
-      })}
+      {data && (
+        <View style={styles.row}>
+          {selectedValues.map(it => (
+            <Typography element="caption" style={styles.text} key={it}>
+              {it}
+            </Typography>
+          ))}
+        </View>
+      )}
     </View>
   );
 };

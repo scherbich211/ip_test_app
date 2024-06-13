@@ -29,7 +29,7 @@ type FontWeight =
       h3: 14,
       body: 14,
       button: 16,
-      caption: 10,
+      caption: 9,
     };
   
     return fontSizes[element] || 14; 
