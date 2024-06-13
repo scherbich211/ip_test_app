@@ -35,7 +35,7 @@ const Carousel = () => {
       outputRange: [0.8, 1, 0.8],
     });
     return (
-      <View style={{width: ITEM_SIZE, justifyContent: 'center', alignItems: 'center', backgroundColor: 'red'}}>
+      <View style={{width: ITEM_SIZE, justifyContent: 'center', alignItems: 'center'}}>
         <Animated.Image
           style={{
             width: ITEM_SIZE,
@@ -52,6 +52,7 @@ const Carousel = () => {
   };
 
   return (
+    <KeyboardAvoidingView>
       <Animated.FlatList
         data={imageData}
         keyExtractor={item => item.id}
@@ -64,13 +65,14 @@ const Carousel = () => {
         onScroll={Animated.event([{nativeEvent: {contentOffset: {x: scrollX}}}], {useNativeDriver: true})}
         snapToInterval={ITEM_SIZE}
         decelerationRate={'fast'}
-        style={{flexGrow: 0}}
+        style={{flexGrow: 0, marginTop: 25, height: ITEM_SIZE * 0.7}}
         onMomentumScrollEnd={ev => {
           const index = Math.round(ev.nativeEvent.contentOffset.x / ITEM_SIZE);
           setSelected(index);
         }}
         renderItem={renderItem}
       />
+    </KeyboardAvoidingView>
   );
 };
 

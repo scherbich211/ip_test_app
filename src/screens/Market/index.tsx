@@ -4,9 +4,8 @@ import {COLORS, SIZES} from '@Constants/style.constants';
 import {TData} from '@Types/index';
 import {Button, Input} from '@ui-kitten/components';
 import React, {memo} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {Keyboard, SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Carousel from './Carousel';
-import KeyboardDismissView from './KeyboardDismissView';
 import Table from './Table';
 
 const Market = () => {
@@ -15,38 +14,38 @@ const Market = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardDismissView>
-        <GradientBackground style={{paddingVertical: 25, justifyContent: 'space-between', flex: 1}}>
+      <GradientBackground style={{paddingVertical: 25}}>
+        <TouchableOpacity
+          onPress={Keyboard.dismiss}
+          activeOpacity={1}
+          style={{
+            alignItems: 'center',
+          }}>
+          <Typography style={styles.header} element="h1">
+            IP DETECTOR
+          </Typography>
           <View
             style={{
-              alignItems: 'center',
-              backgroundColor: 'brown',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              width: SIZES.width * 0.9,
+              marginTop: 20,
             }}>
-            <Typography style={styles.header} element="h1">
-              IP DETECTOR
-            </Typography>
-            <View
+            <Input
               style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: SIZES.width * 0.9,
-                marginTop: 20,
-              }}>
-              <Input
-                style={{
-                  backgroundColor: COLORS.White,
-                  borderRadius: 10,
-                  width: '82%',
-                }}
-                placeholder="Search IP"
-              />
-              <Button style={{borderRadius: 10, width: '15%'}} />
-            </View>
-            <Table data={data} headerText={headerText} />
+                backgroundColor: COLORS.White,
+                borderRadius: 10,
+                width: '82%',
+              }}
+              placeholder="Search IP"
+            />
+            <Button style={{borderRadius: 10, width: '15%'}} />
           </View>
-          <Carousel />
-        </GradientBackground>
-      </KeyboardDismissView>
+          <Table data={data} headerText={headerText} />
+        </TouchableOpacity>
+
+        <Carousel />
+      </GradientBackground>
     </SafeAreaView>
   );
 };

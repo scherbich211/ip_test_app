@@ -9,7 +9,7 @@ const Table = ({data, headerText}: {data: TData[]; headerText: Array<string>}) =
     <View style={styles.container}>
       <View style={styles.row}>
         {headerText.map(header => (
-          <Typography element="h3" style={styles.text}>
+          <Typography element="h3" style={styles.text} key={header}>
             {header}
           </Typography>
         ))}
@@ -19,9 +19,9 @@ const Table = ({data, headerText}: {data: TData[]; headerText: Array<string>}) =
           .map(key => row[key])
           .splice(1);
         return (
-          <View style={styles.row}>
+          <View style={styles.row} key={row.id}>
             {selectedValues.map(it => (
-              <Typography element="caption" style={styles.text}>
+              <Typography element="caption" style={styles.text} key={it}>
                 {it}
               </Typography>
             ))}
