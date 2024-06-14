@@ -1,6 +1,8 @@
+import MarketChart1 from '@Components/MarketData';
+import {useIsFocused} from '@react-navigation/native';
 import React, {FC, memo} from 'react';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import GradientBackground from '../../components/GradientBackground';
 import Typography from '../../components/Typography';
 import {COLORS, SIZES} from '../../constants/style.constants';
@@ -9,19 +11,24 @@ type Props = {
   //
 };
 
-const Market: FC<Props> = () => (
-  <SafeAreaView style={styles.container}>
-    <GradientBackground>
-      <GestureHandlerRootView style={styles.gestureWrapper}>
-        {/* <Layout style={styles.layout}> */}
-        <Typography style={styles.header} element="h3">
-          Chart
-        </Typography>
-        {/* </Layout> */}
-      </GestureHandlerRootView>
-    </GradientBackground>
-  </SafeAreaView>
-);
+const Market: FC<Props> = () => {
+  const isFocused = useIsFocused();
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <GradientBackground>
+        <GestureHandlerRootView style={styles.gestureWrapper}>
+          <Typography style={styles.header} element="h3">
+            Chart
+          </Typography>
+          <View style={{alignItems: 'center', justifyContent: 'center'}}>
+            {isFocused && <MarketChart1 isFocused={isFocused} />}
+          </View>
+        </GestureHandlerRootView>
+      </GradientBackground>
+    </SafeAreaView>
+  );
+};
 
 export default memo(Market);
 

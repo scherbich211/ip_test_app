@@ -1,46 +1,54 @@
 import GradientBackground from '@Components/GradientBackground';
 import Typography from '@Components/Typography';
 import {COLORS, SIZES} from '@Constants/style.constants';
+import {TLocationInfo} from '@Types/index';
+import {getLocationDetails} from '@Utils/getLocationDetails';
 import {getPublicIP} from '@Utils/getPublicIP';
 import {Button, Input} from '@ui-kitten/components';
 import {DataContext} from 'App';
-import React, {memo, useContext, useEffect} from 'react';
+import React, {memo, useContext, useEffect, useState} from 'react';
 import {Keyboard, SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Carousel from '../../components/Carousel';
 import Table from '../../components/Table';
 
+const IP_REGEX = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+
 const Market = () => {
-  const {info, changeInfo} = useContext(DataContext);
+  const {changeInfo} = useContext(DataContext);
+  const [data, setData] = useState<TLocationInfo>();
+  const [ipAddress, setIpAddress] = useState('');
+  const [errorInput, setErrorInput] = useState(null);
+
+  const handleChange = (text: string) => {
+    setIpAddress(text);
+    const isValid = IP_REGEX.test(text);
+    setErrorInput(isValid ? null : 'Invalid IP format');
+  };
+
   useEffect(() => {
+    console.log('====================================');
+    console.log(1);
+    console.log('====================================');
     const fetchCombinedInfo = async () => {
+      console.log(2);
       try {
-        // if () {
-        //   const locationDetails = await getLocationDetails(ip);
-        // setLocationInfo(locationDetails);
-        // }
         const ip_public = await getPublicIP();
+        console.log(ip_public);
         const locationDetails = await getLocationDetails(ip_public);
-        changeInfo({...locationDetails, ...info});
+        setData(locationDetails);
+        changeInfo(locationDetails);
       } catch (error) {
-        // setError(error.message || 'Error fetching information');
+        console.log('error');
       }
     };
-
     fetchCombinedInfo();
   }, []);
 
-  async function getLocationDetails(ip_public: string) {
-    try {
-      const response = await fetch(`https://ipwho.is/${ip_public}`);
-      const data = await response.json();
-      // Assuming response structure:
-      const {ip, city, country_code, timezone, connection} = data;
-      return {ip, location: `${city}, ${country_code}`, utc: timezone.utc, isp: connection.isp}; // Transform response to desired object
-    } catch (error) {
-      console.error('Error fetching location details:', error);
-      throw error;
-    }
-  }
+  const updateLocationDetails = async (ip: string) => {
+    const locationDetails = await getLocationDetails(ip);
+    setData(locationDetails);
+    changeInfo(locationDetails);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -50,10 +58,24 @@ const Market = () => {
             IP DETECTOR
           </Typography>
           <View style={styles.searchContainer}>
-            <Input style={styles.input} placeholder="Search IP" />
-            <Button style={styles.btn} />
+            <View style={styles.inputContainer}>
+              <Input
+                style={styles.input}
+                keyboardType="number-pad"
+                placeholder="Search IP"
+                value={ipAddress}
+                onChangeText={handleChange}
+                maxLength={15}
+              />
+              {errorInput && <Typography style={{color: 'red'}}>{errorInput}</Typography>}
+            </View>
+            <Button
+              style={styles.btn}
+              disabled={errorInput || !ipAddress}
+              onPress={() => updateLocationDetails(ipAddress)}
+            />
           </View>
-          <Table data={info} />
+          {data && <Table data={data} />}
         </TouchableOpacity>
         <Carousel />
       </GradientBackground>
@@ -77,12 +99,14 @@ const styles = StyleSheet.create({
     width: SIZES.width * 0.9,
     marginTop: 20,
   },
+  inputContainer: {
+    width: '82%',
+  },
   input: {
     backgroundColor: COLORS.White,
     borderRadius: 10,
-    width: '82%',
   },
-  btn: {borderRadius: 10, width: '15%'},
+  btn: {borderRadius: 10, width: '15%', height: 40},
   header: {
     alignSelf: 'center',
   },

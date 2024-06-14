@@ -1,11 +1,11 @@
 import Typography from '@Components/Typography';
-import { SIZES } from '@Constants/style.constants';
-import { TInfo } from '@Types/index';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {SIZES} from '@Constants/style.constants';
+import {TLocationInfo} from '@Types/index';
+import React, {memo} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {headerText} from 'src/data';
 
-const Table = ({data}: {data: TInfo}) => {
-  const headerText = ['IP Adress', 'Location', 'Timezone', 'ISP'];
+const Table = ({data}: {data: TLocationInfo}) => {
   const selectedValues = data ? Object.keys(data).map(key => data[key]) : [];
   return (
     <View style={styles.container}>
@@ -29,7 +29,7 @@ const Table = ({data}: {data: TInfo}) => {
   );
 };
 
-export default Table;
+export default memo(Table);
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'black',

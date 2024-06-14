@@ -13,13 +13,9 @@ export type TLocationInfo = {
   isp: string;
 };
 
-export type TImage = {
-  image: string
-}
-
-export type TInfo = TLocationInfo & TImage;
-
 export type TContext = {
-  info: TInfo | undefined;
-  changeInfo: (newInfo: TInfo) => void;
+  info: TLocationInfo | undefined;
+  image: number | undefined;
+  changeInfo: (newInfo: TLocationInfo) => void;
+  changeImage: (newImage: number) => void;
 };
