@@ -12,7 +12,8 @@ const AppNavigator = () => {
   return (
     <NavigationContainer>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.MineShaft} />
-      <Navigator screenOptions={{ headerShown: false }}>
+
+      <Navigator screenOptions={{headerShown: false}}>
         <Screen name={ROUTES.DASHBOARD} component={BottomMenu} />
       </Navigator>
     </NavigationContainer>

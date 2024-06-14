@@ -1,36 +1,82 @@
 import GradientBackground from '@Components/GradientBackground';
 import Typography from '@Components/Typography';
 import {COLORS, SIZES} from '@Constants/style.constants';
+import {TLocationInfo} from '@Types/index';
+import {getLocationDetails} from '@Utils/getLocationDetails';
+import {getPublicIP} from '@Utils/getPublicIP';
 import {Button, Input} from '@ui-kitten/components';
-import React, {memo} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
-import Carousel from './Carousel';
+import {DataContext} from 'App';
+import React, {memo, useContext, useEffect, useState} from 'react';
+import {Keyboard, SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import Carousel from '../../components/Carousel';
+import Table from '../../components/Table';
+
+const IP_REGEX = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
 
 const Market = () => {
+  const {changeInfo} = useContext(DataContext);
+  const [data, setData] = useState<TLocationInfo>();
+  const [ipAddress, setIpAddress] = useState('');
+  const [errorInput, setErrorInput] = useState(null);
+
+  const handleChange = (text: string) => {
+    setIpAddress(text);
+    const isValid = IP_REGEX.test(text);
+    setErrorInput(isValid ? null : 'Invalid IP format');
+  };
+
+  useEffect(() => {
+    console.log('====================================');
+    console.log(1);
+    console.log('====================================');
+    const fetchCombinedInfo = async () => {
+      console.log(2);
+      try {
+        const ip_public = await getPublicIP();
+        console.log(ip_public);
+        const locationDetails = await getLocationDetails(ip_public);
+        setData(locationDetails);
+        changeInfo(locationDetails);
+      } catch (error) {
+        console.log('error');
+      }
+    };
+    fetchCombinedInfo();
+  }, []);
+
+  const updateLocationDetails = async (ip: string) => {
+    const locationDetails = await getLocationDetails(ip);
+    setData(locationDetails);
+    changeInfo(locationDetails);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <GradientBackground style={{justifyContent: 'space-between', paddingBottom: 60}}>
-        <View>
+      <GradientBackground style={styles.spacing}>
+        <TouchableOpacity onPress={Keyboard.dismiss} activeOpacity={1} style={styles.alignCenter}>
           <Typography style={styles.header} element="h1">
             IP DETECTOR
           </Typography>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: SIZES.width * 0.9,
-            }}>
-            <Input
-              style={{
-                backgroundColor: COLORS.White,
-                borderRadius: 10,
-                width: '82%',
-              }}
-              placeholder="Search IP"
+          <View style={styles.searchContainer}>
+            <View style={styles.inputContainer}>
+              <Input
+                style={styles.input}
+                keyboardType="number-pad"
+                placeholder="Search IP"
+                value={ipAddress}
+                onChangeText={handleChange}
+                maxLength={15}
+              />
+              {errorInput && <Typography style={{color: 'red'}}>{errorInput}</Typography>}
+            </View>
+            <Button
+              style={styles.btn}
+              disabled={errorInput || !ipAddress}
+              onPress={() => updateLocationDetails(ipAddress)}
             />
-            <Button style={{borderRadius: 10, width: '15%'}} />
           </View>
-        </View>
+          {data && <Table data={data} />}
+        </TouchableOpacity>
         <Carousel />
       </GradientBackground>
     </SafeAreaView>
@@ -42,10 +88,26 @@ export default memo(Market);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.HeavyMetal,
   },
+  spacing: {paddingVertical: 25},
+  alignCenter: {
+    alignItems: 'center',
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: SIZES.width * 0.9,
+    marginTop: 20,
+  },
+  inputContainer: {
+    width: '82%',
+  },
+  input: {
+    backgroundColor: COLORS.White,
+    borderRadius: 10,
+  },
+  btn: {borderRadius: 10, width: '15%', height: 40},
   header: {
-    paddingVertical: SIZES.spacing * 2.5,
     alignSelf: 'center',
   },
 });

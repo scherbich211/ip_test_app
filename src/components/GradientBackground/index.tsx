@@ -8,10 +8,9 @@ const GradientBackground = ({children, style}: {children: ReactNode; style?: Vie
     colors={[COLORS.HeavyMetal, COLORS.MineShaft]}
     locations={[0.5, 0.75]}
     style={{
-      flex: 1,
-      alignItems: 'center',
+      height: '100%',
       width: '100%',
-      ...style
+      ...style,
     }}>
     {children}
   </LinearGradient>
