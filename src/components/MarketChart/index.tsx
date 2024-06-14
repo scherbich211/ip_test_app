@@ -1,5 +1,3 @@
-
-
 import Typography from '@Components/Typography';
 import {SIZES} from '@Constants/style.constants';
 import {Spinner} from '@ui-kitten/components';
@@ -14,9 +12,9 @@ const chartConfig = {
   labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
 };
 
-const MarketChart1 = ({isFocused}: {isFocused: boolean}) => {
+const MarketChart = ({isFocused}: {isFocused: boolean}) => {
   const [dataPoints, setDataPoints] = useState<Array<number>>([]);
-  let previousPrice = null; 
+  let previousPrice = null;
 
   useEffect(() => {
     const ws = new WebSocket('wss://stream.binance.com:443/ws/btcusdt@aggTrade');
@@ -44,13 +42,13 @@ const MarketChart1 = ({isFocused}: {isFocused: boolean}) => {
       q: string;
       s: string; //"BTCUSDT"
     };
-    let updateTimeoutId = null; 
+    let updateTimeoutId = null;
 
     const debounceUpdateData = updateDataFn => {
       clearTimeout(updateTimeoutId);
       updateTimeoutId = setTimeout(() => {
         updateDataFn();
-      }, 5000); 
+      }, 5000);
     };
 
     const updateData = () => {
@@ -68,13 +66,12 @@ const MarketChart1 = ({isFocused}: {isFocused: boolean}) => {
         }
       };
     };
-    
+
     ws.onopen = sendSubscription;
     debounceUpdateData(() => updateData());
     return () => {
-
-      clearTimeout(updateTimeoutId); 
-      ws.close(); 
+      clearTimeout(updateTimeoutId);
+      ws.close();
     };
   }, []);
 
@@ -108,7 +105,7 @@ const MarketChart1 = ({isFocused}: {isFocused: boolean}) => {
   );
 };
 
-export default memo(MarketChart1);
+export default memo(MarketChart);
 
 const styles = StyleSheet.create({
   container: {

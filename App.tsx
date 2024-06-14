@@ -2,9 +2,9 @@ import * as eva from '@eva-design/eva';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import {useFonts} from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import {useCallback, useEffect, useState} from 'react';
-import {View} from 'react-native';
-import AppNavigator from './src/modules/AppNavigator';
+import {useCallback, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
+import AppNavigator from './src/screens';
 
 import {TContext, TLocationInfo} from '@Types/index';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
@@ -22,17 +22,13 @@ export const DataContext: TDataContext = React.createContext({
 export default function App() {
   const [info, setInfo] = useState<TLocationInfo>(undefined);
   const [image, setImage] = useState<number | undefined>(undefined);
+  
   const updateInfo = (newInfo: TLocationInfo) => {
     setInfo(newInfo);
   };
   const updateImage = (newImage: number) => {
     setImage(newImage);
   };
-  useEffect(() => {
-    console.log('====================================');
-    console.log('app', info, image);
-    console.log('====================================');
-  }, [info, image]);
 
   const [fontsLoaded] = useFonts({
     'Rubik-Regular': require('./assets/fonts/Rubik-Regular.ttf'),
@@ -51,7 +47,7 @@ export default function App() {
   }
 
   return (
-    <View style={{flex: 1}} onLayout={onLayoutRootView}>
+    <View style={styles.flex} onLayout={onLayoutRootView}>
       <IconRegistry icons={EvaIconsPack} />
       <ApplicationProvider {...eva} theme={eva.light}>
         <DataContext.Provider
@@ -67,3 +63,7 @@ export default function App() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  flex: {flex: 1},
+});

@@ -2,34 +2,25 @@ import GradientBackground from '@Components/GradientBackground';
 import Table from '@Components/Table';
 import Typography from '@Components/Typography';
 import {COLORS, ITEM_SIZE, SIZES} from '@Constants/style.constants';
-import {TLocationInfo} from '@Types/index';
 import {DataContext} from 'App';
 import React, {FC, memo, useContext} from 'react';
 import {Image, SafeAreaView, StyleSheet} from 'react-native';
-import {imageData} from 'src/data';
+import {imageData} from 'src/mockData';
 
 type Props = {
   //
 };
 const Data: FC<Props> = () => {
-  const {image: image1, info} = useContext(DataContext);
-  console.log('====================================');
-  console.log('image', imageData[image1].image);
-  console.log('====================================');
-  const data: TLocationInfo = {
-    ip: info.ip,
-    location: info.location,
-    utc: info.utc,
-    isp: info.isp,
-  };
+  const {image, info} = useContext(DataContext);
   return (
     <SafeAreaView style={styles.container}>
       <GradientBackground style={{alignItems: 'center'}}>
         <Typography style={styles.header} element="h3">
           Data
         </Typography>
-        {/* {image && (
+        {image !== undefined && (
           <Image
+            source={{uri: imageData[image].image}}
             style={{
               width: ITEM_SIZE,
               height: ITEM_SIZE * 0.7,
@@ -37,21 +28,10 @@ const Data: FC<Props> = () => {
               borderColor: COLORS.primaryComponent,
               borderRadius: 20,
             }}
-            source={{uri: imageData[image].image}}></Image>
-        )} */}
-        {image1 !== undefined && (
-          <Image
-            source={{uri: imageData[image1].image}}
-            style={{
-              width: ITEM_SIZE,
-              height: ITEM_SIZE * 0.7,
-              borderWidth: 2,
-              borderColor: COLORS.primaryComponent,
-              borderRadius: 20,
-            }}></Image>
+          />
         )}
 
-        {info.ip && <Table data={data} />}
+        {info.ip && <Table data={info} />}
       </GradientBackground>
     </SafeAreaView>
   );

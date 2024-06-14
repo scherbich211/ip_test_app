@@ -3,7 +3,7 @@ import {SIZES} from '@Constants/style.constants';
 import {TLocationInfo} from '@Types/index';
 import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {headerText} from 'src/data';
+import {headerText} from 'src/mockData';
 
 const Table = ({data}: {data: TLocationInfo}) => {
   const selectedValues = data ? Object.keys(data).map(key => data[key]) : [];

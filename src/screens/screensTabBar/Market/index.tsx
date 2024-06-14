@@ -8,10 +8,9 @@ import {Button, Input} from '@ui-kitten/components';
 import {DataContext} from 'App';
 import React, {memo, useContext, useEffect, useState} from 'react';
 import {Keyboard, SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import Carousel from '../../components/Carousel';
-import Table from '../../components/Table';
-
-const IP_REGEX = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+import {IP_REGEX} from 'src/mockData';
+import Carousel from '../../../components/Carousel';
+import Table from '../../../components/Table';
 
 const Market = () => {
   const {changeInfo} = useContext(DataContext);
@@ -26,14 +25,9 @@ const Market = () => {
   };
 
   useEffect(() => {
-    console.log('====================================');
-    console.log(1);
-    console.log('====================================');
     const fetchCombinedInfo = async () => {
-      console.log(2);
       try {
         const ip_public = await getPublicIP();
-        console.log(ip_public);
         const locationDetails = await getLocationDetails(ip_public);
         setData(locationDetails);
         changeInfo(locationDetails);
@@ -67,7 +61,7 @@ const Market = () => {
                 onChangeText={handleChange}
                 maxLength={15}
               />
-              {errorInput && <Typography style={{color: 'red'}}>{errorInput}</Typography>}
+              {errorInput && <Typography style={styles.red}>{errorInput}</Typography>}
             </View>
             <Button
               style={styles.btn}
@@ -110,4 +104,5 @@ const styles = StyleSheet.create({
   header: {
     alignSelf: 'center',
   },
+  red: {color: 'red'},
 });

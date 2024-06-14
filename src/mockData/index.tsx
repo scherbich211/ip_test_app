@@ -14,3 +14,4 @@ export const imageData = [
 ];
 
 export const headerText = ['IP Adress', 'Location', 'Timezone', 'ISP'];
+export const IP_REGEX = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;

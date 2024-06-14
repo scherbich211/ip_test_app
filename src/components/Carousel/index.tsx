@@ -2,7 +2,7 @@ import {COLORS, ITEM_SIZE, ITEM_SPACING} from '@Constants/style.constants';
 import {DataContext} from 'App';
 import React, {memo, useContext, useEffect} from 'react';
 import {Animated, KeyboardAvoidingView, View} from 'react-native';
-import {imageData} from 'src/data';
+import {imageData} from 'src/mockData';
 
 const Carousel = () => {
   const {changeImage} = useContext(DataContext);
@@ -10,12 +10,9 @@ const Carousel = () => {
   const scrollX = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    console.log('====================================');
-    console.log(selected);
-    console.log('====================================');
     changeImage(selected);
   }, [selected]);
-
+  
   const renderItem = ({item, index}) => {
     const inputRange = [(index - 1) * ITEM_SIZE, index * ITEM_SIZE, (index + 1) * ITEM_SIZE];
     const opacity = scrollX.interpolate({
