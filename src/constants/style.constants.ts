@@ -21,3 +21,5 @@ export const SIZES = {
 
 export const isIOS = Platform.OS === 'ios';
 
+export const ITEM_SIZE = SIZES.width * 0.7;
+export const ITEM_SPACING = (SIZES.width - ITEM_SIZE) / 2;

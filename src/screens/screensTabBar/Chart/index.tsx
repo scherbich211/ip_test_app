@@ -19,6 +19,9 @@ const Market: FC<Props> = () => {
         <Typography style={styles.header} element="h3">
           Chart
         </Typography>
+        <View style={{alignItems: 'center', justifyContent: 'center'}}>
+          {isFocused && <MarketChart1 isFocused={isFocused} />}
+        </View>
       </GradientBackground>
     </SafeAreaView>
   );
