@@ -11,8 +11,7 @@ const {Navigator, Screen} = createStackNavigator<RootStackParamList>();
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <StatusBar barStyle="dark-content" backgroundColor={COLORS.MineShaft} />
-
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.HeavyMetal} />
       <Navigator screenOptions={{headerShown: false}}>
         <Screen name={ROUTES.DASHBOARD} component={BottomMenu} />
       </Navigator>
