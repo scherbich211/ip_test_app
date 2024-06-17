@@ -1,7 +1,7 @@
-# Movie app
+# IP_TEST_APP
 
 ## For the developer
-Dear friend, the repository was taken from some old project. It was chaos, but it turned into something that worked. The structure of the project is quite simple, I didn’t bother too much due to the fact that I don’t get paid for it (I hope you understand). If you have any questions, you can contact tg: @alxndr_schrbkv. Hours spent on this nonsense - 16. I did it on android only. I hope it works on your side))))
+Dear friend, the repository was taken from some old project. It was chaos, but it turned into something that worked. The structure of the project is quite simple. Hours spent - 16. I did it on android only. I hope it works on your side))))
 Good luck!
 ## How to run project
 
