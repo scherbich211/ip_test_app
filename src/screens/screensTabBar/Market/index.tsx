@@ -1,14 +1,14 @@
 import GradientBackground from '@Components/GradientBackground';
 import Typography from '@Components/Typography';
-import {COLORS, SIZES} from '@Constants/style.constants';
-import {TLocationInfo} from '@Types/index';
-import {getLocationDetails} from '@Utils/getLocationDetails';
-import {getPublicIP} from '@Utils/getPublicIP';
-import {Button, Input} from '@ui-kitten/components';
-import {DataContext} from 'App';
-import React, {memo, useContext, useEffect, useState} from 'react';
-import {Keyboard, SafeAreaView, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {IP_REGEX} from 'src/mockData';
+import { COLORS, SIZES } from '@Constants/style.constants';
+import { TLocationInfo } from '@Types/index';
+import { getLocationDetails } from '@Utils/getLocationDetails';
+import { getPublicIP } from '@Utils/getPublicIP';
+import { Button, Input } from '@ui-kitten/components';
+import { DataContext } from 'App';
+import React, { memo, useContext, useEffect, useState } from 'react';
+import { Keyboard, SafeAreaView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { IP_REGEX } from 'src/mockData';
 import Carousel from '../../../components/Carousel';
 import Table from '../../../components/Table';
 
@@ -16,12 +16,12 @@ const Market = () => {
   const {changeInfo} = useContext(DataContext);
   const [data, setData] = useState<TLocationInfo>();
   const [ipAddress, setIpAddress] = useState('');
-  const [errorInput, setErrorInput] = useState(null);
+  const [errorInput, setErrorInput] = useState(false);
 
   const handleChange = (text: string) => {
     setIpAddress(text);
     const isValid = IP_REGEX.test(text);
-    setErrorInput(isValid ? null : 'Invalid IP format');
+    setErrorInput(isValid);
   };
 
   useEffect(() => {
@@ -43,6 +43,7 @@ const Market = () => {
     setData(locationDetails);
     changeInfo(locationDetails);
   };
+  const showTextError = !errorInput && ipAddress
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,11 +62,11 @@ const Market = () => {
                 onChangeText={handleChange}
                 maxLength={15}
               />
-              {errorInput && <Typography style={styles.red}>{errorInput}</Typography>}
+              {showTextError && <Typography style={styles.red}>Invalid IP format</Typography>}
             </View>
             <Button
               style={styles.btn}
-              disabled={errorInput || !ipAddress}
+              disabled={!errorInput || !ipAddress}
               onPress={() => updateLocationDetails(ipAddress)}
             />
           </View>
